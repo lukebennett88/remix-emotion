@@ -2,6 +2,7 @@ import { Container } from "@spark-web/container";
 import { Heading } from "@spark-web/heading";
 import { Stack } from "@spark-web/stack";
 import { Text } from "@spark-web/text";
+import { TextLink } from "@spark-web/text-link";
 import { TextList } from "@spark-web/text-list";
 
 export default function Index() {
@@ -12,27 +13,31 @@ export default function Index() {
           <Heading level="1">Welcome to Remix</Heading>
           <TextList>
             <Text>
-              <a
+              <TextLink
                 target="_blank"
                 href="https://remix.run/tutorials/blog"
                 rel="noreferrer"
               >
                 15m Quickstart Blog Tutorial
-              </a>
+              </TextLink>
             </Text>
             <Text>
-              <a
+              <TextLink
                 target="_blank"
                 href="https://remix.run/tutorials/jokes"
                 rel="noreferrer"
               >
                 Deep Dive Jokes App Tutorial
-              </a>
+              </TextLink>
             </Text>
             <Text>
-              <a target="_blank" href="https://remix.run/docs" rel="noreferrer">
+              <TextLink
+                target="_blank"
+                href="https://remix.run/docs"
+                rel="noreferrer"
+              >
                 Remix Docs
-              </a>
+              </TextLink>
             </Text>
           </TextList>
         </Stack>
