@@ -14,6 +14,8 @@
     "@remix-run/react": "^1.5.1",
     "@remix-run/vercel": "^1.5.1",
     "@spark-web/a11y": "^1.0.5",
+    "@spark-web/box": "^1.0.5",
+    "@spark-web/columns": "^2.0.0",
     "@spark-web/container": "^1.0.5",
     "@spark-web/core": "^2.1.0",
     "@spark-web/heading": "^2.0.0",
@@ -26,6 +28,7 @@
     "@spark-web/text-list": "^2.0.0",
     "@spark-web/theme": "^3.0.1",
     "@vercel/node": "^2.0.0",
+    "framer-motion": "^6.3.11",
     "react": "^17.0.2",
     "react-dom": "^17.0.2"
   },

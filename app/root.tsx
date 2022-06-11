@@ -8,6 +8,7 @@ import {
   Scripts,
   ScrollRestoration,
 } from "@remix-run/react";
+import { Box } from "@spark-web/box";
 import {
   AesteticoStylesheet,
   AESTETICO_REGULAR_URL,
@@ -23,16 +24,14 @@ import { ClientStyleContext, ServerStyleContext } from "./emotion/context";
 
 export const meta: MetaFunction = () => ({
   charset: "utf-8",
-  title: "New Remix App",
+  title: "Luke Bennett",
   viewport: "width=device-width,initial-scale=1",
 });
 
-export let links: LinksFunction = () => {
-  return [
-    { rel: "preconnect", href: AESTETICO_REGULAR_URL },
-    { rel: "preconnect", href: AESTETICO_SEMIBOLD_URL },
-  ];
-};
+export let links: LinksFunction = () => [
+  { rel: "preconnect", href: AESTETICO_REGULAR_URL },
+  { rel: "preconnect", href: AESTETICO_SEMIBOLD_URL },
+];
 
 interface DocumentProps {
   children: ReactNode;
@@ -61,7 +60,7 @@ const Document = withEmotionCache(
     }, []);
 
     return (
-      <html lang="en">
+      <html lang="en-AU">
         <head>
           <Meta />
           <Links />
@@ -73,16 +72,16 @@ const Document = withEmotionCache(
             />
           ))}
         </head>
-        <body>
-          <SparkProvider linkComponent={UniversalRemixLink}>
+        <SparkProvider linkComponent={UniversalRemixLink}>
+          <Box as="body" background="surface">
             <AesteticoStylesheet />
             <Header />
             {children}
-          </SparkProvider>
-          <ScrollRestoration />
-          <Scripts />
-          <LiveReload />
-        </body>
+            <ScrollRestoration />
+            <Scripts />
+            <LiveReload />
+          </Box>
+        </SparkProvider>
       </html>
     );
   }
