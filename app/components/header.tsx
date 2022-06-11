@@ -28,12 +28,15 @@ export function Header() {
           <Link
             href="/"
             className={css({
-              color: theme.color.foreground.primary,
+              color: theme.color.background.primary,
               display: "inline-flex",
               alignItems: "center",
               gap: theme.spacing.medium,
               ":hover": {
-                color: theme.color.foreground.secondary,
+                color: theme.backgroundInteractions.primaryHover,
+              },
+              ":active": {
+                color: theme.backgroundInteractions.primaryActive,
               },
             })}
           >
