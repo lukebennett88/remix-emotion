@@ -17,6 +17,8 @@ import {
 import type { ReactNode } from "react";
 import { useContext, useEffect } from "react";
 
+import { UniversalRemixLink } from "./components/universal-remix-link";
+
 import { ClientStyleContext, ServerStyleContext } from "./emotion/context";
 
 export const meta: MetaFunction = () => ({
@@ -72,7 +74,7 @@ const Document = withEmotionCache(
           ))}
         </head>
         <body>
-          <SparkProvider>
+          <SparkProvider linkComponent={UniversalRemixLink}>
             <AesteticoStylesheet />
             {children}
           </SparkProvider>
