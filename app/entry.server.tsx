@@ -4,8 +4,9 @@ import type { EntryContext } from "@remix-run/node";
 import { RemixServer } from "@remix-run/react";
 import { renderToString } from "react-dom/server";
 
-import { createEmotionCache } from "./emotion/cache";
+import { createEmotionCache, key } from "./emotion/cache";
 import { ServerStyleContext } from "./emotion/context";
+import { renderStatic } from "./emotion/ssr";
 
 export default function handleRequest(
   request: Request,
@@ -13,33 +14,43 @@ export default function handleRequest(
   responseHeaders: Headers,
   remixContext: EntryContext
 ) {
-  const cache = createEmotionCache();
-  const { extractCriticalToChunks } = createEmotionServer(cache);
+  return (async () => {
+    const cache = createEmotionCache();
 
-  const content = (
-    <CacheProvider value={cache}>
-      <RemixServer context={remixContext} url={request.url} />
-    </CacheProvider>
-  );
+    const { extractCriticalToChunks } = createEmotionServer(cache);
 
-  const html = renderToString(
-    <ServerStyleContext.Provider value={null}>
-      {content}
-    </ServerStyleContext.Provider>
-  );
+    const content = (
+      <CacheProvider value={cache}>
+        <RemixServer context={remixContext} url={request.url} />
+      </CacheProvider>
+    );
 
-  const chunks = extractCriticalToChunks(html);
+    const html = renderToString(
+      <ServerStyleContext.Provider value={undefined}>
+        {content}
+      </ServerStyleContext.Provider>
+    );
 
-  const markup = renderToString(
-    <ServerStyleContext.Provider value={chunks.styles}>
-      {content}
-    </ServerStyleContext.Provider>
-  );
+    const chunks = extractCriticalToChunks(html);
 
-  responseHeaders.set("Content-Type", "text/html");
+    let markup = renderToString(
+      <ServerStyleContext.Provider value={chunks.styles}>
+        {content}
+      </ServerStyleContext.Provider>
+    );
 
-  return new Response(`<!DOCTYPE html>${markup}`, {
-    status: responseStatusCode,
-    headers: responseHeaders,
-  });
+    responseHeaders.set("Content-Type", "text/html");
+
+    const { css, ids } = await renderStatic(markup);
+
+    markup = markup.replace(
+      /<\/head>/,
+      `<style data-emotion="${key} ${ids.join(" ")}">${css}</style></head>`
+    );
+
+    return new Response(`<!DOCTYPE html>${markup}`, {
+      status: responseStatusCode,
+      headers: responseHeaders,
+    });
+  })();
 }
